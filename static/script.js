@@ -15,7 +15,6 @@ function visualizeCareer(careerPathJson) {
         `;
         viz.style.opacity = 0;
         setTimeout(() => {
-            viz.style.transition = 'opacity 0.5s';
             viz.style.opacity = 1;
         }, 100);
     } catch (e) {

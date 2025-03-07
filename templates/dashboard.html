@@ -9,39 +9,63 @@
     <script>
         window.onload = function() {
             visualizeCareer('{{ recommendation.career_path|tojson|safe }}');
+            document.querySelectorAll('.animate-fade-in').forEach(el => {
+                el.style.opacity = 1;
+                el.style.transform = 'translateY(0)';
+            });
+
+            // Chatbot toggle functionality
+            const bubble = document.getElementById('chatbot-bubble');
+            const chatbotWindow = document.getElementById('chatbot-window');
+            const closeBtn = document.getElementById('chatbot-close');
+
+            bubble.addEventListener('click', () => {
+                chatbotWindow.classList.toggle('active');
+            });
+
+            closeBtn.addEventListener('click', () => {
+                chatbotWindow.classList.remove('active');
+            });
         };
     </script>
 </head>
 <body>
+    <header class="dashboard-header">
+        <h1>Career Compass</h1>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </header>
     <div class="dashboard-container">
-        <header>
-            <h1>Career Compass</h1>
-            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
-        </header>
         <div class="content">
-            <div class="card profile-card">
+            <div class="card profile-card animate-fade-in">
                 <h2>Your Profile</h2>
                 <p><strong>Skills:</strong> {{ profile.skills }}</p>
                 <p><strong>Interests:</strong> {{ profile.interests }}</p>
                 <p><strong>Education:</strong> {{ profile.education }}</p>
             </div>
-            <div class="card recommendation-card">
+            <div class="card recommendation-card animate-fade-in">
                 <h2>Your Career Recommendation</h2>
                 <p><strong>Career:</strong> {{ recommendation.career }}</p>
                 <p><strong>Skills Needed:</strong> {{ recommendation.skills_needed|join(', ') }}</p>
                 <p><strong>Market Trend:</strong> {{ recommendation.market_trend }}</p>
                 <div id="visualization" class="visualization"></div>
-                <div class="chatbot-container">
-                    <h3>Chat with Career Guide</h3>
-                    <iframe
-                        src="https://www.chatbase.co/chatbot-iframe/qFixjf4Y9sPbC2-tZ2MHb"
-                        width="100%"
-                        style="height: 100%; min-height: 400px"
-                        frameborder="0"
-                    ></iframe>
-                </div>
             </div>
         </div>
+    </div>
+    <!-- Chatbot Bubble and Window (unchanged) -->
+    <div id="chatbot-bubble" class="chatbot-bubble">
+        <span>💬</span>
+    </div>
+    <div id="chatbot-window" class="chatbot-window">
+        <div class="chatbot-header">
+            <h3>Chat with Career Guide</h3>
+            <button id="chatbot-close" class="chatbot-close">✕</button>
+        </div>
+        <iframe
+            src="https://www.chatbase.co/chatbot-iframe/qFixjf4Y9sPbC2-tZ2MHb"
+            width="100%"
+            height="100%"
+            frameborder="0"
+        ></iframe>
     </div>
 </body>
 </html>
